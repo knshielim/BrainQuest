@@ -3,13 +3,17 @@ package com.example.brainquest.ui
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.example.brainquest.MainActivity
 import com.example.brainquest.R
 import com.example.brainquest.data.AuthManager
 import com.example.brainquest.data.ProgressManager
 import com.example.brainquest.databinding.ActivityLoginBinding
 
+// Log in
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
@@ -17,10 +21,14 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableBrainQuestEdgeToEdge()
+        enableEdgeToEdge()
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        applySystemBarInsets(binding.main)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.ime())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
 
         auth = AuthManager(this)
 
@@ -28,7 +36,8 @@ class LoginActivity : AppCompatActivity() {
 
         // Explicit intent
         binding.textGoSignUp.setOnClickListener {
-            startActivity(Intent(this, SignUpActivity::class.java))
+            val explicitIntent = Intent(this, SignUpActivity::class.java)
+            startActivity(explicitIntent)
         }
     }
 
@@ -49,13 +58,14 @@ class LoginActivity : AppCompatActivity() {
         }
 
         val progress = ProgressManager(this)
-        val intent = if (progress.hasProfile()) {
+        // Explicit intent
+        val explicitIntent = if (progress.hasProfile()) {
             Toast.makeText(this, getString(R.string.login_success, progress.firstName), Toast.LENGTH_SHORT).show()
             Intent(this, MainActivity::class.java)
         } else {
             Intent(this, ProfileActivity::class.java).putExtra(Extras.FIRST_RUN, true)
         }
-        startActivity(intent)
+        startActivity(explicitIntent)
         finish()
     }
 }

@@ -4,7 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.example.brainquest.MainActivity
 import com.example.brainquest.R
 import com.example.brainquest.data.AuthManager
@@ -13,6 +16,7 @@ import com.example.brainquest.databinding.ActivityProfileBinding
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 
+// Student profile
 class ProfileActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityProfileBinding
@@ -21,10 +25,14 @@ class ProfileActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableBrainQuestEdgeToEdge()
+        enableEdgeToEdge()
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        applySystemBarInsets(binding.main, binding.appBarMain.root)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.ime())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
 
         progress = ProgressManager(this)
         firstRun = intent.getBooleanExtra(Extras.FIRST_RUN, false) || !progress.hasProfile()
@@ -96,7 +104,8 @@ class ProfileActivity : AppCompatActivity() {
 
         if (firstRun) {
             // Explicit intent
-            startActivity(Intent(this, MainActivity::class.java))
+            val explicitIntent = Intent(this, MainActivity::class.java)
+            startActivity(explicitIntent)
         }
         finish()
     }

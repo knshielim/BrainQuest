@@ -11,19 +11,24 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.example.brainquest.R
 import com.example.brainquest.data.LearningRepository
 import com.example.brainquest.data.Lesson
 import com.example.brainquest.databinding.ActivityFlashcardBinding
 import kotlin.math.abs
 
+// Flashcards
 class FlashcardActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityFlashcardBinding
     private lateinit var lesson: Lesson
 
+    // Flashcard
     private data class Card(val title: String?, val body: String)
 
     private var cards: List<Card> = emptyList()
@@ -33,10 +38,14 @@ class FlashcardActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableBrainQuestEdgeToEdge()
+        enableEdgeToEdge()
         binding = ActivityFlashcardBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        applySystemBarInsets(binding.main, binding.appBarMain.root)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
 
         val found = LearningRepository.lesson(intent.getStringExtra(Extras.LESSON_ID))
         if (found == null) {
@@ -48,6 +57,7 @@ class FlashcardActivity : AppCompatActivity() {
         subjectColor = ContextCompat.getColor(this, subject.colorRes)
         subjectLightColor = ContextCompat.getColor(this, subject.lightColorRes)
 
+        // App bar
         setSupportActionBar(binding.appBarMain.toolbar)
         supportActionBar?.title = getString(R.string.flashcards)
         supportActionBar?.subtitle = subject.name
@@ -65,15 +75,16 @@ class FlashcardActivity : AppCompatActivity() {
 
         // Explicit intent
         binding.buttonAttemptQuiz.setOnClickListener {
-            val intent = Intent(this, QuizActivity::class.java)
-            intent.putExtra(Extras.SUBJECT_ID, lesson.subjectId)
-            startActivity(intent)
+            val explicitIntent = Intent(this, QuizActivity::class.java)
+            explicitIntent.putExtra(Extras.SUBJECT_ID, lesson.subjectId)
+            startActivity(explicitIntent)
         }
         binding.buttonBack.setOnClickListener { finish() }
 
         showCard(0)
     }
 
+    // Make flashcards
     private fun makeCards(content: String): List<Card> =
         content.split("\n\n").map { it.trim() }.filter { it.isNotEmpty() }.map { paragraph ->
             val firstLine = paragraph.substringBefore("\n")
@@ -86,6 +97,7 @@ class FlashcardActivity : AppCompatActivity() {
             }
         }
 
+    // Swipe
     @SuppressLint("ClickableViewAccessibility")
     private fun setUpSwipe() {
         val detector = GestureDetector(this, object : GestureDetector.SimpleOnGestureListener() {
@@ -100,6 +112,7 @@ class FlashcardActivity : AppCompatActivity() {
         binding.cardFlash.setOnTouchListener { _, event -> detector.onTouchEvent(event) }
     }
 
+    // Show card
     private fun showCard(index: Int) {
         if (cards.isEmpty() || index !in cards.indices) return
         val direction = if (index >= currentCard) 1 else -1
@@ -119,6 +132,7 @@ class FlashcardActivity : AppCompatActivity() {
         buildPager(binding.pager)
     }
 
+    // Page numbers
     private fun buildPager(container: LinearLayout) {
         container.removeAllViews()
         container.addView(pagerButton("‹", enabled = currentCard > 0, selected = false) { showCard(currentCard - 1) })

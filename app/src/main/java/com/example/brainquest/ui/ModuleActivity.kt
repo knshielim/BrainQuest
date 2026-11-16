@@ -3,28 +3,41 @@ package com.example.brainquest.ui
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.brainquest.R
 import com.example.brainquest.adapter.LessonAdapter
 import com.example.brainquest.data.LearningRepository
+import com.example.brainquest.data.Lesson
 import com.example.brainquest.data.ProgressManager
 import com.example.brainquest.data.Subject
 import com.example.brainquest.databinding.ActivityModuleBinding
 
+// Learning module
 class ModuleActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityModuleBinding
     private lateinit var progress: ProgressManager
     private lateinit var subject: Subject
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var dataList: ArrayList<Lesson>
     private lateinit var lessonAdapter: LessonAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableBrainQuestEdgeToEdge()
+        enableEdgeToEdge()
         binding = ActivityModuleBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        applySystemBarInsets(binding.main, binding.appBarMain.root)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
 
         progress = ProgressManager(this)
         subject = LearningRepository.subject(intent.getStringExtra(Extras.SUBJECT_ID))
@@ -41,21 +54,32 @@ class ModuleActivity : AppCompatActivity() {
         binding.textSubjectDesc.text = subject.description
         binding.buttonStartQuiz.backgroundTintList = ColorStateList.valueOf(color)
 
-        lessonAdapter = LessonAdapter(subject.lessons, subject.colorRes, progress.completedLessons()) { lesson ->
-            // Explicit intent: open the lesson
-            val intent = Intent(this, LessonActivity::class.java)
-            intent.putExtra(Extras.LESSON_ID, lesson.id)
-            startActivity(intent)
-        }
-        binding.recyclerLessons.layoutManager = LinearLayoutManager(this)
-        binding.recyclerLessons.adapter = lessonAdapter
+        // RecyclerView
+        recyclerView = findViewById(R.id.recyclerLessons)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.setHasFixedSize(true)
+        dataList = arrayListOf<Lesson>()
+        getData()
 
         binding.buttonStartQuiz.setOnClickListener {
-            // Explicit intent: start the quiz game for this subject
-            val intent = Intent(this, QuizActivity::class.java)
-            intent.putExtra(Extras.SUBJECT_ID, subject.id)
-            startActivity(intent)
+            // Explicit intent
+            val explicitIntent = Intent(this, QuizActivity::class.java)
+            explicitIntent.putExtra(Extras.SUBJECT_ID, subject.id)
+            startActivity(explicitIntent)
         }
+    }
+
+    private fun getData() {
+        for (i in subject.lessons.indices) {
+            dataList.add(subject.lessons[i])
+        }
+        lessonAdapter = LessonAdapter(dataList, subject.colorRes, progress.completedLessons()) { lesson ->
+            // Explicit intent
+            val explicitIntent = Intent(this, LessonActivity::class.java)
+            explicitIntent.putExtra(Extras.LESSON_ID, lesson.id)
+            startActivity(explicitIntent)
+        }
+        recyclerView.adapter = lessonAdapter
     }
 
     override fun onResume() {

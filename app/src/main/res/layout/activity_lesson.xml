@@ -11,7 +11,9 @@
 
     <include
         android:id="@+id/appBarMain"
-        layout="@layout/app_bar_main" />
+        layout="@layout/app_bar_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scroll"
@@ -85,6 +87,7 @@
                     tools:visibility="visible" />
             </LinearLayout>
 
+            <!-- Lesson description -->
             <TextView
                 android:id="@+id/textSummary"
                 style="@style/TextAppearance.BrainQuest.Body"

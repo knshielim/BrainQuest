@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/bottom_learn"
+        android:title="@string/nav_learn"
+        android:icon="@drawable/ic_home">
+
+    </item>
+    <item
+        android:id="@+id/bottom_progress"
+        android:title="@string/nav_progress"
+        android:icon="@drawable/ic_insights">
+
+    </item>
+    <item
+        android:id="@+id/bottom_rewards"
+        android:title="@string/nav_rewards"
+        android:icon="@drawable/ic_trophy">
+
+    </item>
+</menu>

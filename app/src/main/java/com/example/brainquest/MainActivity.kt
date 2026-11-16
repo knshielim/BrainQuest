@@ -6,7 +6,10 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.example.brainquest.R
 import com.example.brainquest.data.AuthManager
@@ -17,46 +20,61 @@ import com.example.brainquest.ui.ProgressFragment
 import com.example.brainquest.ui.RewardsFragment
 import com.example.brainquest.ui.LoginActivity
 import com.example.brainquest.ui.ProfileActivity
-import com.example.brainquest.ui.enableBrainQuestEdgeToEdge
-import com.example.brainquest.ui.applySystemBarInsets
 import com.example.brainquest.ui.shareText
 import com.example.brainquest.ui.openUrl
 import com.example.brainquest.ui.sendEmail
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
+// Home screen
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var progress: ProgressManager
+    private lateinit var bottomNavigationView: BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableBrainQuestEdgeToEdge()
+        enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        applySystemBarInsets(binding.main, binding.appBarMain.root)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
 
         progress = ProgressManager(this)
         setSupportActionBar(binding.appBarMain.toolbar)
 
-        binding.bottomNav.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.nav_learn -> goToFragment(HomeFragment())
-                R.id.nav_progress -> goToFragment(ProgressFragment())
-                R.id.nav_rewards -> goToFragment(RewardsFragment())
+        // Bottom navigation
+        bottomNavigationView = binding.bottomNavigation
+        bottomNavigationView.setOnItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.bottom_learn -> {
+                    replaceFragment(HomeFragment())
+                    true
+                }
+                R.id.bottom_progress -> {
+                    replaceFragment(ProgressFragment())
+                    true
+                }
+                R.id.bottom_rewards -> {
+                    replaceFragment(RewardsFragment())
+                    true
+                }
+                else -> false
             }
-            true
         }
-
         if (savedInstanceState == null) {
-            goToFragment(HomeFragment())
+            replaceFragment(HomeFragment())
         }
 
         // Back button
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if (binding.bottomNav.selectedItemId != R.id.nav_learn) {
-                    binding.bottomNav.selectedItemId = R.id.nav_learn
+                if (bottomNavigationView.selectedItemId != R.id.bottom_learn) {
+                    bottomNavigationView.selectedItemId = R.id.bottom_learn
                 } else {
                     finish()
                 }
@@ -74,11 +92,8 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.subtitle = "Level ${progress.level} ${progress.levelTitle} • ${progress.totalPoints} pts"
     }
 
-    private fun goToFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction()
-            .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
-            .replace(R.id.fragmentContainer, fragment)
-            .commit()
+    private fun replaceFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction().replace(R.id.frame_container, fragment).commit()
     }
 
     // Options menu
@@ -91,7 +106,8 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.action_profile -> {
                 // Explicit intent
-                startActivity(Intent(this, ProfileActivity::class.java))
+                val explicitIntent = Intent(this, ProfileActivity::class.java)
+                startActivity(explicitIntent)
                 return true
             }
             R.id.action_share -> {
@@ -134,7 +150,7 @@ class MainActivity : AppCompatActivity() {
                         progress.resetProgress()
                         Toast.makeText(this, R.string.reset_done, Toast.LENGTH_SHORT).show()
                         updateTitle()
-                        binding.bottomNav.selectedItemId = R.id.nav_learn
+                        bottomNavigationView.selectedItemId = R.id.bottom_learn
                     }
                     .show()
                 return true
@@ -147,9 +163,9 @@ class MainActivity : AppCompatActivity() {
                     .setPositiveButton(R.string.logout) { _, _ ->
                         AuthManager(this).logout()
                         // Explicit intent
-                        val intent = Intent(this, LoginActivity::class.java)
-                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        startActivity(intent)
+                        val explicitIntent = Intent(this, LoginActivity::class.java)
+                        explicitIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(explicitIntent)
                     }
                     .show()
                 return true

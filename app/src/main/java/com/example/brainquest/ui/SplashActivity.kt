@@ -5,33 +5,43 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.animation.OvershootInterpolator
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.example.brainquest.MainActivity
+import com.example.brainquest.R
 import com.example.brainquest.data.AuthManager
 import com.example.brainquest.data.ProgressManager
 import com.example.brainquest.databinding.ActivitySplashBinding
 
+// Splash screen
 class SplashActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySplashBinding
     private val handler = Handler(Looper.getMainLooper())
 
     private val openNextScreen = Runnable {
-        val intent = when {
+        // Explicit intent
+        val explicitIntent = when {
             !AuthManager(this).isLoggedIn -> Intent(this, LoginActivity::class.java)
             ProgressManager(this).hasProfile() -> Intent(this, MainActivity::class.java)
             else -> Intent(this, ProfileActivity::class.java).putExtra(Extras.FIRST_RUN, true)
         }
-        startActivity(intent)
+        startActivity(explicitIntent)
         finish()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableBrainQuestEdgeToEdge()
+        enableEdgeToEdge()
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        applySystemBarInsets(binding.main)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
 
         playIntroAnimation()
         handler.postDelayed(openNextScreen, SPLASH_DELAY_MS)

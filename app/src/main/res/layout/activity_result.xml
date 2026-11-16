@@ -11,7 +11,9 @@
 
     <include
         android:id="@+id/appBarMain"
-        layout="@layout/app_bar_main" />
+        layout="@layout/app_bar_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -54,7 +56,7 @@
                 android:gravity="center"
                 tools:text="You completed the Mathematics quiz." />
 
-            <!-- Score Percentage -->
+            <!-- Score -->
             <FrameLayout
                 android:layout_width="170dp"
                 android:layout_height="170dp"
@@ -125,7 +127,7 @@
                     android:src="@drawable/ic_star" />
             </LinearLayout>
 
-            <!-- Other Info -->
+            <!-- Result details -->
             <com.google.android.material.card.MaterialCardView
                 style="@style/Widget.BrainQuest.Card"
                 android:layout_width="match_parent"
@@ -212,7 +214,7 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- New Badges -->
+            <!-- New badges -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardNewBadges"
                 style="@style/Widget.BrainQuest.Card"
@@ -251,13 +253,13 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <!-- Buttons -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp">
 
+        <!-- Buttons -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

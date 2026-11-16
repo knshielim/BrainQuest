@@ -4,14 +4,18 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.example.brainquest.MainActivity
 import com.example.brainquest.R
 import com.example.brainquest.data.LearningRepository
 import com.example.brainquest.data.ProgressManager
 import com.example.brainquest.databinding.ActivityResultBinding
 
+// Quiz result
 class ResultActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityResultBinding
@@ -20,10 +24,14 @@ class ResultActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableBrainQuestEdgeToEdge()
+        enableEdgeToEdge()
         binding = ActivityResultBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        applySystemBarInsets(binding.main, binding.appBarMain.root)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
 
         progress = ProgressManager(this)
         val subject = LearningRepository.subject(intent.getStringExtra(Extras.SUBJECT_ID))
@@ -39,6 +47,7 @@ class ResultActivity : AppCompatActivity() {
         supportActionBar?.subtitle = "${subject.name} Quiz"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        // Save result
         if (savedInstanceState == null) {
             val before = progress.unlockedBadgeIds()
             progress.recordQuiz(subject.id, correct, total, points)
@@ -49,6 +58,7 @@ class ResultActivity : AppCompatActivity() {
             newBadgeLines = savedInstanceState.getStringArrayList(STATE_BADGES) ?: arrayListOf()
         }
 
+        // Headline
         val (headline, message) = when {
             percent >= 90 -> "Outstanding! 🏆" to "You are a ${subject.name} superstar!"
             percent >= 70 -> "Great job! 🎉" to "Very good work. A little more practice for 3 stars!"
@@ -61,6 +71,7 @@ class ResultActivity : AppCompatActivity() {
             ContextCompat.getColor(this, if (percent >= 50) R.color.accent else R.color.locked)
         )
 
+        // Score ring
         val scoreColor = ContextCompat.getColor(this, subject.colorRes)
         binding.progressScore.setIndicatorColor(scoreColor)
         binding.progressScore.trackColor = ContextCompat.getColor(this, subject.lightColorRes)
@@ -68,6 +79,7 @@ class ResultActivity : AppCompatActivity() {
         binding.progressScore.setProgressCompat(percent, true)
         binding.textPercent.text = "$percent%"
 
+        // Stars
         listOf(binding.star1, binding.star2, binding.star3).forEachIndexed { i, star ->
             val earned = i < stars
             star.setImageResource(if (earned) R.drawable.ic_star else R.drawable.ic_star_border)
@@ -92,7 +104,9 @@ class ResultActivity : AppCompatActivity() {
 
         binding.buttonTryAgain.setOnClickListener {
             // Explicit intent
-            startActivity(Intent(this, QuizActivity::class.java).putExtra(Extras.SUBJECT_ID, subject.id))
+            val explicitIntent = Intent(this, QuizActivity::class.java)
+            explicitIntent.putExtra(Extras.SUBJECT_ID, subject.id)
+            startActivity(explicitIntent)
             finish()
         }
 
@@ -109,9 +123,9 @@ class ResultActivity : AppCompatActivity() {
 
     // Explicit intent
     private fun goHome() {
-        val intent = Intent(this, MainActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-        startActivity(intent)
+        val explicitIntent = Intent(this, MainActivity::class.java)
+        explicitIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+        startActivity(explicitIntent)
         finish()
     }
 

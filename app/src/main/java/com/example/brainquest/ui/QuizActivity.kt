@@ -6,8 +6,11 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.example.brainquest.R
 import com.example.brainquest.data.LearningRepository
 import com.example.brainquest.data.Question
@@ -16,6 +19,7 @@ import com.example.brainquest.databinding.ActivityQuizBinding
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
+// Quiz
 class QuizActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityQuizBinding
@@ -35,10 +39,14 @@ class QuizActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableBrainQuestEdgeToEdge()
+        enableEdgeToEdge()
         binding = ActivityQuizBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        applySystemBarInsets(binding.main, binding.appBarMain.root)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
 
         subject = LearningRepository.subject(intent.getStringExtra(Extras.SUBJECT_ID))
         questions = subject.questions.shuffled().take(QUESTIONS_PER_QUIZ)
@@ -81,6 +89,7 @@ class QuizActivity : AppCompatActivity() {
         binding.cardFeedback.visibility = View.GONE
         binding.buttonNext.visibility = View.INVISIBLE
 
+        // Shuffle answers
         val order = question.options.indices.shuffled()
         correctPosition = order.indexOf(question.answerIndex)
 
@@ -195,14 +204,14 @@ class QuizActivity : AppCompatActivity() {
     private fun finishQuiz() {
         timer?.cancel()
         // Explicit intent
-        val intent = Intent(this, ResultActivity::class.java).apply {
+        val explicitIntent = Intent(this, ResultActivity::class.java).apply {
             putExtra(Extras.SUBJECT_ID, subject.id)
             putExtra(Extras.CORRECT, correctCount)
             putExtra(Extras.TOTAL, questions.size)
             putExtra(Extras.POINTS, points)
             putExtra(Extras.BEST_STREAK, bestStreak)
         }
-        startActivity(intent)
+        startActivity(explicitIntent)
         finish()
     }
 

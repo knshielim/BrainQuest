@@ -13,7 +13,7 @@
         android:orientation="vertical"
         android:padding="11dp">
 
-        <!-- Performance Overview-->
+        <!-- Performance overview-->
         <TextView
             style="@style/TextAppearance.BrainQuest.Title"
             android:layout_width="wrap_content"
@@ -181,7 +181,7 @@
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
 
-        <!--Subject Performance -->
+        <!--Subject performance -->
         <TextView
             style="@style/TextAppearance.BrainQuest.Section"
             android:layout_width="wrap_content"

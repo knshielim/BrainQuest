@@ -8,18 +8,24 @@ import android.content.res.ColorStateList
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.brainquest.R
 import com.example.brainquest.adapter.HistoryAdapter
 import com.example.brainquest.data.LearningRepository
 import com.example.brainquest.data.ProgressManager
+import com.example.brainquest.data.QuizRecord
 import com.example.brainquest.databinding.FragmentProgressBinding
 import com.example.brainquest.databinding.ItemSubjectProgressBinding
 
+// Progress tab (fragment)
 class ProgressFragment : Fragment() {
 
     private var _binding: FragmentProgressBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var progress: ProgressManager
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var dataList: ArrayList<QuizRecord>
     private lateinit var historyAdapter: HistoryAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -30,9 +36,14 @@ class ProgressFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         progress = ProgressManager(requireContext())
-        historyAdapter = HistoryAdapter(emptyList())
-        binding.recyclerHistory.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerHistory.adapter = historyAdapter
+
+        // RecyclerView
+        recyclerView = view.findViewById(R.id.recyclerHistory)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.setHasFixedSize(true)
+        dataList = arrayListOf<QuizRecord>()
+        historyAdapter = HistoryAdapter(dataList)
+        recyclerView.adapter = historyAdapter
     }
 
     override fun onResume() {
@@ -40,9 +51,17 @@ class ProgressFragment : Fragment() {
         bindOverview()
         bindSubjects()
         bindAnalysis()
+        getData()
+        binding.textEmptyHistory.visibility = if (dataList.isEmpty()) View.VISIBLE else View.GONE
+    }
+
+    private fun getData() {
+        dataList.clear()
         val history = progress.history()
-        historyAdapter.submit(history)
-        binding.textEmptyHistory.visibility = if (history.isEmpty()) View.VISIBLE else View.GONE
+        for (i in history.indices) {
+            dataList.add(history[i])
+        }
+        historyAdapter.notifyDataSetChanged()
     }
 
     private fun bindOverview() {
@@ -74,6 +93,7 @@ class ProgressFragment : Fragment() {
         }
     }
 
+    // Progress analysis
     private fun bindAnalysis() {
         val attempted = LearningRepository.subjects.filter { progress.bestScore(it.id) >= 0 }
         val notTried = LearningRepository.subjects.filter { progress.bestScore(it.id) < 0 }

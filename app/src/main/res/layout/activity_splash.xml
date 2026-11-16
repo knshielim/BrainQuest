@@ -65,7 +65,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textTagline" />
 
-    <!-- Loading Bar -->
+    <!-- Loading bar -->
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progressSplash"
         android:layout_width="160dp"
@@ -80,7 +80,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <!-- BrainQuest Version -->
+    <!-- BrainQuest version -->
     <TextView
         android:id="@+id/textVersion"
         android:layout_width="wrap_content"

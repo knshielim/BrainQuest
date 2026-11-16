@@ -5,8 +5,11 @@ import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.example.brainquest.R
 import com.example.brainquest.data.LearningRepository
 import com.example.brainquest.data.Lesson
@@ -14,6 +17,7 @@ import com.example.brainquest.data.ProgressManager
 import com.example.brainquest.databinding.ActivityLessonBinding
 import com.google.android.material.button.MaterialButton
 
+// Lesson
 class LessonActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLessonBinding
@@ -23,10 +27,14 @@ class LessonActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableBrainQuestEdgeToEdge()
+        enableEdgeToEdge()
         binding = ActivityLessonBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        applySystemBarInsets(binding.main, binding.appBarMain.root)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
 
         progress = ProgressManager(this)
         val found = LearningRepository.lesson(intent.getStringExtra(Extras.LESSON_ID))
@@ -56,16 +64,16 @@ class LessonActivity : AppCompatActivity() {
 
         // Explicit intent
         binding.buttonStudy.setOnClickListener {
-            val intent = Intent(this, FlashcardActivity::class.java)
-            intent.putExtra(Extras.LESSON_ID, lesson.id)
-            startActivity(intent)
+            val explicitIntent = Intent(this, FlashcardActivity::class.java)
+            explicitIntent.putExtra(Extras.LESSON_ID, lesson.id)
+            startActivity(explicitIntent)
         }
 
         // Explicit intent
         binding.buttonTakeQuiz.setOnClickListener {
-            val intent = Intent(this, QuizActivity::class.java)
-            intent.putExtra(Extras.SUBJECT_ID, lesson.subjectId)
-            startActivity(intent)
+            val explicitIntent = Intent(this, QuizActivity::class.java)
+            explicitIntent.putExtra(Extras.SUBJECT_ID, lesson.subjectId)
+            startActivity(explicitIntent)
         }
 
         setUpPractice()

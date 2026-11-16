@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base theme -->
+    <!-- Base application theme. -->
     <style name="Base.Theme.BrainQuest" parent="Theme.Material3.Light.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorOnPrimary">@color/white</item>
@@ -20,6 +20,11 @@
     <!-- Splash screen -->
     <style name="Theme.BrainQuest.Splash" parent="Base.Theme.BrainQuest">
         <item name="android:windowBackground">@color/primary</item>
+    </style>
+
+    <!-- Highlight for bottom navigation -->
+    <style name="App.Custom.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@color/accent</item>
     </style>
 
     <!-- App bar -->
@@ -45,7 +50,7 @@
         <item name="android:textColor">@color/text_secondary</item>
     </style>
 
-    <!-- White rounded card -->
+    <!-- White card -->
     <style name="Widget.BrainQuest.Card" parent="Widget.Material3.CardView.Elevated">
         <item name="cardBackgroundColor">@color/surface</item>
         <item name="cardCornerRadius">18dp</item>
@@ -69,7 +74,6 @@
         <item name="strokeWidth">2dp</item>
         <item name="backgroundTint">@color/surface</item>
     </style>
-
     <!-- Stat on the home header -->
     <style name="HeaderStatPill">
         <item name="android:layout_width">0dp</item>

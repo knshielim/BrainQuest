@@ -6,8 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.brainquest.R
 import com.example.brainquest.adapter.BadgeAdapter
+import com.example.brainquest.data.Badge
 import com.example.brainquest.data.LearningRepository
 import com.example.brainquest.data.ProgressManager
 import com.example.brainquest.databinding.DialogCertificateBinding
@@ -17,12 +19,15 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+// Rewards tab (fragment)
 class RewardsFragment : Fragment() {
 
     private var _binding: FragmentRewardsBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var progress: ProgressManager
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var dataList: ArrayList<Badge>
     private lateinit var badgeAdapter: BadgeAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -34,7 +39,12 @@ class RewardsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         progress = ProgressManager(requireContext())
 
-        badgeAdapter = BadgeAdapter(progress.badges()) { badge ->
+        // RecyclerView
+        recyclerView = view.findViewById(R.id.recyclerBadges)
+        recyclerView.layoutManager = GridLayoutManager(requireContext(), 3)
+        recyclerView.setHasFixedSize(true)
+        dataList = arrayListOf<Badge>()
+        badgeAdapter = BadgeAdapter(dataList) { badge ->
             MaterialAlertDialogBuilder(requireContext())
                 .setTitle("${badge.emoji}  ${badge.title}")
                 .setMessage(
@@ -43,16 +53,15 @@ class RewardsFragment : Fragment() {
                 .setPositiveButton(R.string.close, null)
                 .show()
         }
-        binding.recyclerBadges.layoutManager = GridLayoutManager(requireContext(), 3)
-        binding.recyclerBadges.adapter = badgeAdapter
+        recyclerView.adapter = badgeAdapter
 
         binding.buttonCertificate.setOnClickListener { showCertificate() }
     }
 
     override fun onResume() {
         super.onResume()
-        val badges = progress.badges()
-        badgeAdapter.submit(badges)
+        getData()
+        val badges = dataList
 
         with(binding) {
             textLevelNumber.text = progress.level.toString()
@@ -70,6 +79,15 @@ class RewardsFragment : Fragment() {
             textCertificateIcon.alpha = if (unlocked) 1f else 0.4f
             buttonCertificate.visibility = if (unlocked) View.VISIBLE else View.GONE
         }
+    }
+
+    private fun getData() {
+        dataList.clear()
+        val badges = progress.badges()
+        for (i in badges.indices) {
+            dataList.add(badges[i])
+        }
+        badgeAdapter.notifyDataSetChanged()
     }
 
     private fun showCertificate() {

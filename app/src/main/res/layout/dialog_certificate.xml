@@ -9,12 +9,14 @@
     android:orientation="vertical"
     android:padding="28dp">
 
+    <!-- Icon -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="🏆"
         android:textSize="44sp" />
 
+    <!-- Title -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -26,6 +28,7 @@
         android:textSize="15sp"
         android:textStyle="bold" />
 
+    <!-- Message -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -34,6 +37,7 @@
         android:textColor="@color/text_secondary"
         android:textSize="13sp" />
 
+    <!-- Full name -->
     <TextView
         android:id="@+id/textCertName"
         android:layout_width="wrap_content"
@@ -45,6 +49,7 @@
         android:textStyle="bold|italic"
         tools:text="Aina Sofea" />
 
+    <!-- Student details -->
     <TextView
         android:id="@+id/textCertSchool"
         android:layout_width="wrap_content"
@@ -54,6 +59,7 @@
         android:textSize="13sp"
         tools:text="Form 4 • SMK Seri Bintang" />
 
+    <!-- Message -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -63,6 +69,7 @@
         android:textColor="@color/text_primary"
         android:textSize="13sp" />
 
+    <!-- Details -->
     <TextView
         android:id="@+id/textCertDetails"
         android:layout_width="wrap_content"
@@ -73,6 +80,7 @@
         android:textStyle="bold"
         tools:text="Level 4 Scholar • 820 points • ★ 8" />
 
+    <!-- Date -->
     <TextView
         android:id="@+id/textCertDate"
         android:layout_width="wrap_content"

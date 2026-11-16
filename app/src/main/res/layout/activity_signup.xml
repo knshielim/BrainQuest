@@ -23,6 +23,7 @@
             android:contentDescription="@string/app_name"
             android:src="@drawable/logo_brainquest" />
 
+        <!-- BrainQuest name -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -32,6 +33,7 @@
             android:textSize="28sp"
             android:textStyle="bold" />
 
+        <!-- BrainQuest vision -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -56,6 +58,7 @@
                 android:orientation="vertical"
                 android:padding="20dp">
 
+                <!-- Create account title -->
                 <TextView
                     style="@style/TextAppearance.BrainQuest.Title"
                     android:layout_width="match_parent"
@@ -63,6 +66,7 @@
                     android:gravity="center"
                     android:text="@string/signup_title" />
 
+                <!-- Message -->
                 <TextView
                     style="@style/TextAppearance.BrainQuest.Body"
                     android:layout_width="match_parent"
@@ -72,6 +76,7 @@
                     android:gravity="center"
                     android:text="@string/signup_sub" />
 
+                <!-- Full name -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/inputName"
                     style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
@@ -94,6 +99,7 @@
                         android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <!-- Email -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/inputEmail"
                     style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
@@ -116,6 +122,7 @@
                         android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <!-- Password -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/inputPassword"
                     style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
@@ -139,6 +146,7 @@
                         android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <!-- Confirm password -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/inputConfirm"
                     style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
@@ -162,6 +170,7 @@
                         android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <!-- Buttons -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/buttonSignUp"
                     android:layout_width="match_parent"
@@ -178,6 +187,7 @@
                     android:gravity="center"
                     android:orientation="horizontal">
 
+                    <!-- Login link -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

@@ -11,7 +11,9 @@
 
     <include
         android:id="@+id/appBarMain"
-        layout="@layout/app_bar_main" />
+        layout="@layout/app_bar_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -34,7 +36,6 @@
                 android:scaleType="fitCenter"
                 android:src="@drawable/logo_brainquest_wordmark" />
 
-            <!-- Chosen avatar -->
             <FrameLayout
                 android:layout_width="104dp"
                 android:layout_height="104dp"
@@ -42,6 +43,7 @@
                 android:background="@drawable/bg_circle"
                 android:backgroundTint="@color/primary_light">
 
+                <!-- Chosen avatar -->
                 <TextView
                     android:id="@+id/textAvatar"
                     android:layout_width="wrap_content"
@@ -61,7 +63,6 @@
                 android:gravity="center"
                 android:text="@string/profile_welcome" />
 
-            <!-- Description -->
             <TextView
                 android:id="@+id/textWelcomeSub"
                 style="@style/TextAppearance.BrainQuest.Body"
@@ -71,7 +72,7 @@
                 android:gravity="center"
                 android:text="@string/profile_welcome_sub" />
 
-            <!-- Stats -->
+            <!-- Profile stats -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardStats"
                 style="@style/Widget.BrainQuest.Card"
@@ -181,7 +182,7 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Avatar -->
+            <!-- Choose avatar -->
             <TextView
                 style="@style/TextAppearance.BrainQuest.Section"
                 android:layout_width="wrap_content"
@@ -197,7 +198,7 @@
                 app:selectionRequired="true"
                 app:singleSelection="true" />
 
-            <!-- Name -->
+            <!-- Full name -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/inputName"
                 style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
@@ -220,7 +221,7 @@
                     android:maxLength="40" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- School -->
+            <!-- School name -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/inputSchool"
                 style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
@@ -243,7 +244,7 @@
                     android:maxLength="60" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Year Group -->
+            <!-- Student Year -->
             <TextView
                 style="@style/TextAppearance.BrainQuest.Section"
                 android:layout_width="wrap_content"
@@ -261,7 +262,7 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <!-- Button -->
+    <!-- Buttons -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonSave"
         android:layout_width="match_parent"

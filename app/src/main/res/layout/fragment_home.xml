@@ -34,7 +34,7 @@
                 android:src="@drawable/ill_cambridge" />
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Student Header -->
+        <!-- Student header -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -188,7 +188,7 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Learning Module -->
+        <!-- Learning module -->
         <TextView
             style="@style/TextAppearance.BrainQuest.Title"
             android:layout_width="wrap_content"
