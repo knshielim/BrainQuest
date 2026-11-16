@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.BrainQuest"
+        tools:targetApi="31">
+
+        <!-- 1. Splash screen -->
+        <activity
+            android:name=".ui.SplashActivity"
+            android:exported="true"
+            android:theme="@style/Theme.BrainQuest.Splash">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- 2. Log in and sign up screens -->
+        <activity
+            android:name=".ui.LoginActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".ui.SignUpActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.LoginActivity"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- 3. Student profile  -->
+        <activity
+            android:name=".ui.ProfileActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- 4. Home screen -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="false"
+            android:launchMode="singleTop" />
+
+        <!-- 5. Subject with lesson list -->
+        <activity
+            android:name=".ui.ModuleActivity"
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
+
+        <!-- 6. Lesson -->
+        <activity
+            android:name=".ui.LessonActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.ModuleActivity" />
+
+        <!-- 7. Flashcards -->
+        <activity
+            android:name=".ui.FlashcardActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.LessonActivity" />
+
+        <!-- 8. Quiz game -->
+        <activity
+            android:name=".ui.QuizActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+
+        <!-- 9. Quiz result -->
+        <activity
+            android:name=".ui.ResultActivity"
+            android:exported="false" />
+    </application>
+
+</manifest>

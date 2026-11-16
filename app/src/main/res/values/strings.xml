@@ -1,0 +1,127 @@
+<resources>
+    <string name="app_name">BrainQuest</string>
+    <string name="tagline">Learn. Play. Level up!</string>
+    <string name="splash_subtitle">Game-Based E-Learning for Cambridge IGCSE Students</string>
+    <string name="version_label">Version 1.0</string>
+
+    <!-- Log in / sign up -->
+    <string name="login_title">Welcome back! 👋</string>
+    <string name="login_sub">Log in to continue your learning quest.</string>
+    <string name="signup_title">Create an account</string>
+    <string name="signup_sub">Sign up to save your points, stars and badges.</string>
+    <string name="hint_email">E-mail</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_confirm_password">Confirm password</string>
+    <string name="btn_login">Log In</string>
+    <string name="btn_signup">Sign Up</string>
+    <string name="btn_create_account">Create Account</string>
+    <string name="no_account">Don\'t have an account?</string>
+    <string name="have_account">Already have an account?</string>
+    <string name="login_success">Welcome back, %1$s!</string>
+    <string name="signup_success">Account created! Now set up your profile.</string>
+    <string name="menu_logout">Log Out</string>
+    <string name="logout_title">Log out?</string>
+    <string name="logout_msg">Your progress is saved to your account. You can log in again at any time.</string>
+    <string name="logout">Log Out</string>
+
+    <!-- Profile -->
+    <string name="title_create_profile">Create Your Profile</string>
+    <string name="title_edit_profile">My Profile</string>
+    <string name="profile_welcome">Welcome, learner! 👋</string>
+    <string name="profile_welcome_sub">Set up your student profile to start your learning quest.</string>
+    <string name="choose_avatar">Choose your avatar</string>
+    <string name="hint_name">Full name</string>
+    <string name="hint_school">School name</string>
+    <string name="choose_form">Year group</string>
+    <string name="btn_start_learning">Start Learning</string>
+    <string name="btn_save_profile">Save Profile</string>
+    <string name="error_name">Please enter your name</string>
+    <string name="error_school">Please enter your school</string>
+    <string name="profile_saved">Profile saved!</string>
+    <string name="my_stats">My Learning Stats</string>
+
+    <!-- Main / navigation -->
+    <string name="nav_learn">Learn</string>
+    <string name="nav_progress">Progress</string>
+    <string name="nav_rewards">Rewards</string>
+
+    <!-- Options menu -->
+    <string name="menu_profile">My Profile</string>
+    <string name="menu_share">Share App</string>
+    <string name="menu_help">Online Learning Resources</string>
+    <string name="menu_contact">Contact Teacher</string>
+    <string name="menu_about">About BrainQuest</string>
+    <string name="menu_reset">Reset Progress</string>
+    <string name="menu_exit">Exit</string>
+
+    <!-- Home fragment -->
+    <string name="choose_module">Choose a Learning Module</string>
+    <string name="choose_module_sub">Pick an IGCSE subject, study the lessons, then beat the quiz to earn stars and badges.</string>
+    <string name="did_you_know">💡 Did you know?</string>
+    <string name="cambridge_logo">Cambridge logo</string>
+    <string name="cambridge_note">Content aligned with Cambridge IGCSE syllabuses · Not an official Cambridge product</string>
+
+    <!-- Module / lesson -->
+    <string name="lessons">Lessons</string>
+    <string name="btn_start_quiz">Start Quiz Challenge</string>
+    <string name="watch_video">Watch Video Lesson</string>
+    <string name="key_points">Key Points</string>
+    <string name="study_flashcards">Study Flashcards</string>
+    <string name="flashcards">Flashcards</string>
+    <string name="card_counter">Card %1$d of %2$d</string>
+    <string name="flashcard_hint">Swipe the card or tap a number to move between cards</string>
+    <string name="attempt_quiz_now">Attempt Quiz Now</string>
+    <string name="back_to_lesson">Back to Lesson</string>
+    <string name="quick_practice">✏️ Quick Practice</string>
+    <string name="quick_practice_sub">Answer correctly to complete this lesson and earn +5 points.</string>
+    <string name="take_quiz">Take the Subject Quiz</string>
+    <string name="no_app_found">No app found to open this.</string>
+
+    <!-- Quiz -->
+    <string name="next_question">Next Question</string>
+    <string name="finish_quiz">See My Results</string>
+    <string name="quit_quiz_title">Leave the quiz?</string>
+    <string name="quit_quiz_msg">Your progress in this quiz will be lost.</string>
+    <string name="quit">Quit</string>
+    <string name="keep_playing">Keep Playing</string>
+    <string name="times_up">⏰ Time\'s up!</string>
+
+    <!-- Result -->
+    <string name="quiz_result">Quiz Result</string>
+    <string name="btn_try_again">Try Again</string>
+    <string name="btn_share_result">Share Result</string>
+    <string name="btn_back_home">Back to Home</string>
+    <string name="new_badges">🎉 New badge unlocked!</string>
+
+    <!-- Progress fragment -->
+    <string name="performance_overview">Performance Overview</string>
+    <string name="quizzes_taken">Quizzes taken</string>
+    <string name="average_score">Average score</string>
+    <string name="lessons_done">Lessons done</string>
+    <string name="total_points">Total points</string>
+    <string name="subject_performance">Subject Performance</string>
+    <string name="analysis">Learning Analysis</string>
+    <string name="recent_activity">Recent Quiz Activity</string>
+    <string name="no_history">No quizzes yet. Pick a module and start your first challenge!</string>
+
+    <!-- Rewards fragment -->
+    <string name="my_badges">My Badges</string>
+    <string name="certificate">Certificate of Achievement</string>
+    <string name="certificate_locked">Score 80% or more in all 12 subjects to unlock the BrainQuest Champion badge and your certificate.</string>
+    <string name="certificate_unlocked">Congratulations! You have mastered all 12 IGCSE subjects.</string>
+    <string name="view_certificate">View Certificate</string>
+    <string name="share_certificate">Share</string>
+    <string name="close">Close</string>
+
+    <!-- Dialogs -->
+    <string name="about_title">About BrainQuest</string>
+    <string name="about_msg">BrainQuest is a game-based e-learning app for Cambridge IGCSE students (Year 9 – Year 11).\n\nStudy 12 Cambridge IGCSE subjects (Mathematics, Biology, Chemistry, Physics, Computer Science, ICT, English, Business, Economics, Accounting, Geography and History) through illustrated lessons and video links, practise with interactive quizzes, track your performance, and collect points, stars, badges and a certificate along the way.\n\nVersion 1.0 – SWE401 Mobile Application Development.</string>
+    <string name="reset_title">Reset progress?</string>
+    <string name="reset_msg">All points, scores, lessons and badges will be cleared. Your profile will be kept.</string>
+    <string name="reset">Reset</string>
+    <string name="cancel">Cancel</string>
+    <string name="reset_done">Progress has been reset.</string>
+    <string name="exit_title">Exit BrainQuest?</string>
+    <string name="exit_msg">Are you sure you want to close the app?</string>
+    <string name="exit">Exit</string>
+</resources>
