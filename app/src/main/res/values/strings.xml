@@ -40,7 +40,7 @@
     <string name="profile_saved">Profile saved!</string>
     <string name="my_stats">My Learning Stats</string>
 
-    <!-- Main / navigation -->
+    <!-- Navigation -->
     <string name="nav_learn">Learn</string>
     <string name="nav_progress">Progress</string>
     <string name="nav_rewards">Rewards</string>
@@ -54,14 +54,14 @@
     <string name="menu_reset">Reset Progress</string>
     <string name="menu_exit">Exit</string>
 
-    <!-- Home fragment -->
+    <!-- Home -->
     <string name="choose_module">Choose a Learning Module</string>
     <string name="choose_module_sub">Pick an IGCSE subject, study the lessons, then beat the quiz to earn stars and badges.</string>
     <string name="did_you_know">💡 Did you know?</string>
     <string name="cambridge_logo">Cambridge logo</string>
     <string name="cambridge_note">Content aligned with Cambridge IGCSE syllabuses · Not an official Cambridge product</string>
 
-    <!-- Module / lesson -->
+    <!-- Module and lesson -->
     <string name="lessons">Lessons</string>
     <string name="btn_start_quiz">Start Quiz Challenge</string>
     <string name="watch_video">Watch Video Lesson</string>
@@ -93,7 +93,7 @@
     <string name="btn_back_home">Back to Home</string>
     <string name="new_badges">🎉 New badge unlocked!</string>
 
-    <!-- Progress fragment -->
+    <!-- Progress -->
     <string name="performance_overview">Performance Overview</string>
     <string name="quizzes_taken">Quizzes taken</string>
     <string name="average_score">Average score</string>
@@ -104,13 +104,16 @@
     <string name="recent_activity">Recent Quiz Activity</string>
     <string name="no_history">No quizzes yet. Pick a module and start your first challenge!</string>
 
-    <!-- Rewards fragment -->
+    <!-- Rewards -->
     <string name="my_badges">My Badges</string>
     <string name="certificate">Certificate of Achievement</string>
     <string name="certificate_locked">Score 80% or more in all 12 subjects to unlock the BrainQuest Champion badge and your certificate.</string>
     <string name="certificate_unlocked">Congratulations! You have mastered all 12 IGCSE subjects.</string>
     <string name="view_certificate">View Certificate</string>
     <string name="share_certificate">Share</string>
+    <string name="download_pdf">Download PDF</string>
+    <string name="certificate_saved">Certificate saved as PDF</string>
+    <string name="certificate_save_failed">Could not save the PDF</string>
     <string name="close">Close</string>
 
     <!-- Dialogs -->
