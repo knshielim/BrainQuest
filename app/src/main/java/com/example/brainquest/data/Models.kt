@@ -3,6 +3,7 @@ package com.example.brainquest.data
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 
+// Subject
 data class Subject(
     val id: String,
     val name: String,
@@ -14,6 +15,7 @@ data class Subject(
     val questions: List<Question>
 )
 
+// Lesson
 data class Lesson(
     val id: String,
     val subjectId: String,
@@ -22,10 +24,11 @@ data class Lesson(
     val content: String,
     val keyPoints: List<String>,
     @param:DrawableRes val imageRes: Int,
-    val videoUrl: String,
+    val videoUrl: String, // Video link (not used)
     val practice: Question
 )
 
+// Question
 data class Question(
     val text: String,
     val options: List<String>,
@@ -33,14 +36,17 @@ data class Question(
     val explanation: String
 )
 
+// Badge
 data class Badge(
     val id: String,
     val emoji: String,
+    @param:DrawableRes val imageRes: Int,
     val title: String,
     val description: String,
     val unlocked: Boolean
 )
 
+// Quiz record
 data class QuizRecord(
     val subjectId: String,
     val percent: Int,

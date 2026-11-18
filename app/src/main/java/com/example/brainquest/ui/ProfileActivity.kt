@@ -1,11 +1,14 @@
 package com.example.brainquest.ui
 
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.drawable.RoundedBitmapDrawable
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.brainquest.MainActivity
@@ -29,6 +32,7 @@ class ProfileActivity : AppCompatActivity() {
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            // Keyboard space
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.ime())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
@@ -44,15 +48,16 @@ class ProfileActivity : AppCompatActivity() {
         val currentAvatar = if (firstRun) ProgressManager.AVATARS.first() else progress.avatar
         val currentForm = if (firstRun) ProgressManager.FORMS.first() else progress.form
 
-        addChoiceChips(binding.chipGroupAvatar, ProgressManager.AVATARS, currentAvatar, textSize = 24f)
+        addAvatarChips(binding.chipGroupAvatar, currentAvatar)
         addChoiceChips(binding.chipGroupForm, ProgressManager.FORMS, currentForm, textSize = 15f)
-        binding.textAvatar.text = currentAvatar
+        binding.imageAvatar.setImageResource(ProgressManager.avatarImageFor(currentAvatar))
         binding.chipGroupAvatar.setOnCheckedStateChangeListener { group, _ ->
-            binding.textAvatar.text = selectedText(group) ?: currentAvatar
+            binding.imageAvatar.setImageResource(ProgressManager.avatarImageFor(selectedAvatar(group) ?: currentAvatar))
         }
 
         if (firstRun) {
             binding.buttonSave.setText(R.string.btn_start_learning)
+            // Name from sign up
             val auth = AuthManager(this)
             auth.currentEmail?.let { binding.editName.setText(auth.nameFor(it)) }
         } else {
@@ -74,6 +79,45 @@ class ProfileActivity : AppCompatActivity() {
         binding.textStatStars.text = progress.totalStars.toString()
         binding.textStatBadges.text = progress.unlockedBadgeIds().size.toString()
     }
+
+    // Avatar choices
+    private fun addAvatarChips(group: ChipGroup, selected: String) {
+        val size = 52 * resources.displayMetrics.density
+        ProgressManager.AVATARS.forEach { avatar ->
+            val chip = layoutInflater.inflate(R.layout.item_chip_choice, group, false) as Chip
+            chip.id = View.generateViewId()
+            chip.tag = avatar
+            chip.text = ""
+            chip.contentDescription = avatar.removePrefix("avatar_")
+            chip.chipIcon = circleImage(ProgressManager.avatarImageFor(avatar))
+            chip.isChipIconVisible = true
+            chip.chipIconSize = size
+            chip.chipMinHeight = size + 12 * resources.displayMetrics.density
+            chip.textStartPadding = 0f
+            chip.textEndPadding = 0f
+            chip.iconEndPadding = 0f
+            group.addView(chip)
+            if (avatar == selected) chip.isChecked = true
+        }
+    }
+
+    // Circle crop
+    private fun circleImage(imageRes: Int): RoundedBitmapDrawable {
+        // Load a small copy of the image so 10 avatars use little memory
+        val options = BitmapFactory.Options()
+        options.inScaled = false
+        options.inJustDecodeBounds = true
+        BitmapFactory.decodeResource(resources, imageRes, options)
+        options.inSampleSize = maxOf(1, options.outWidth / 256)
+        options.inJustDecodeBounds = false
+        val bitmap = BitmapFactory.decodeResource(resources, imageRes, options)
+        val circle = RoundedBitmapDrawableFactory.create(resources, bitmap)
+        circle.isCircular = true
+        return circle
+    }
+
+    private fun selectedAvatar(group: ChipGroup): String? =
+        group.findViewById<Chip>(group.checkedChipId)?.tag as? String
 
     private fun addChoiceChips(group: ChipGroup, items: List<String>, selected: String, textSize: Float) {
         items.forEach { item ->
@@ -97,7 +141,7 @@ class ProfileActivity : AppCompatActivity() {
         binding.inputSchool.error = if (school.isEmpty()) getString(R.string.error_school) else null
         if (name.isEmpty() || school.isEmpty()) return
 
-        val avatar = selectedText(binding.chipGroupAvatar) ?: ProgressManager.AVATARS.first()
+        val avatar = selectedAvatar(binding.chipGroupAvatar) ?: ProgressManager.AVATARS.first()
         val form = selectedText(binding.chipGroupForm) ?: ProgressManager.FORMS.first()
         progress.saveProfile(name, form, school, avatar)
         Toast.makeText(this, R.string.profile_saved, Toast.LENGTH_SHORT).show()

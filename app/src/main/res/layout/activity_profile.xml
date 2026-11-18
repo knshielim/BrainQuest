@@ -26,7 +26,7 @@
             android:orientation="vertical"
             android:padding="20dp">
 
-            <!-- BrainQuest logo -->
+            <!-- Logo -->
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
@@ -43,14 +43,16 @@
                 android:background="@drawable/bg_circle"
                 android:backgroundTint="@color/primary_light">
 
-                <!-- Chosen avatar -->
-                <TextView
-                    android:id="@+id/textAvatar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textSize="52sp"
-                    tools:text="🦊" />
+                <!-- Avatar -->
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/imageAvatar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/choose_avatar"
+                    android:padding="4dp"
+                    android:scaleType="centerCrop"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearance.BrainQuest.Circle"
+                    tools:src="@drawable/avatar_fox" />
             </FrameLayout>
 
             <!-- Welcome -->
@@ -63,6 +65,7 @@
                 android:gravity="center"
                 android:text="@string/profile_welcome" />
 
+            <!-- Welcome sub -->
             <TextView
                 android:id="@+id/textWelcomeSub"
                 style="@style/TextAppearance.BrainQuest.Body"
@@ -72,7 +75,7 @@
                 android:gravity="center"
                 android:text="@string/profile_welcome_sub" />
 
-            <!-- Profile stats -->
+            <!-- Card -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardStats"
                 style="@style/Widget.BrainQuest.Card"
@@ -94,6 +97,7 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
+                        <!-- Level -->
                         <TextView
                             android:id="@+id/textStatLevel"
                             android:layout_width="wrap_content"
@@ -117,6 +121,7 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
+                        <!-- Points -->
                         <TextView
                             android:id="@+id/textStatPoints"
                             android:layout_width="wrap_content"
@@ -140,6 +145,7 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
+                        <!-- Stars -->
                         <TextView
                             android:id="@+id/textStatStars"
                             android:layout_width="wrap_content"
@@ -163,6 +169,7 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
+                        <!-- Badges -->
                         <TextView
                             android:id="@+id/textStatBadges"
                             android:layout_width="wrap_content"
@@ -182,7 +189,6 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Choose avatar -->
             <TextView
                 style="@style/TextAppearance.BrainQuest.Section"
                 android:layout_width="wrap_content"
@@ -190,6 +196,7 @@
                 android:layout_marginTop="20dp"
                 android:text="@string/choose_avatar" />
 
+            <!-- Avatar choices -->
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/chipGroupAvatar"
                 android:layout_width="match_parent"
@@ -198,7 +205,7 @@
                 app:selectionRequired="true"
                 app:singleSelection="true" />
 
-            <!-- Full name -->
+            <!-- Name box -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/inputName"
                 style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
@@ -221,7 +228,7 @@
                     android:maxLength="40" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- School name -->
+            <!-- School box -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/inputSchool"
                 style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
@@ -244,7 +251,6 @@
                     android:maxLength="60" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Student Year -->
             <TextView
                 style="@style/TextAppearance.BrainQuest.Section"
                 android:layout_width="wrap_content"
@@ -252,6 +258,7 @@
                 android:layout_marginTop="20dp"
                 android:text="@string/choose_form" />
 
+            <!-- Year group choices -->
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/chipGroupForm"
                 android:layout_width="match_parent"
@@ -262,7 +269,7 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <!-- Buttons -->
+    <!-- Button -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonSave"
         android:layout_width="match_parent"

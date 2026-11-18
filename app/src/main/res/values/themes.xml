@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+    <!-- App theme -->
     <style name="Base.Theme.BrainQuest" parent="Theme.Material3.Light.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorOnPrimary">@color/white</item>
@@ -17,14 +17,20 @@
 
     <style name="Theme.BrainQuest" parent="Base.Theme.BrainQuest" />
 
-    <!-- Splash screen -->
+    <!-- Splash theme -->
     <style name="Theme.BrainQuest.Splash" parent="Base.Theme.BrainQuest">
         <item name="android:windowBackground">@color/primary</item>
     </style>
 
-    <!-- Highlight for bottom navigation -->
+    <!-- Bottom navigation highlight -->
     <style name="App.Custom.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
         <item name="android:color">@color/accent</item>
+    </style>
+
+    <!-- Circle image -->
+    <style name="ShapeAppearance.BrainQuest.Circle" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
     </style>
 
     <!-- App bar -->
@@ -50,14 +56,14 @@
         <item name="android:textColor">@color/text_secondary</item>
     </style>
 
-    <!-- White card -->
+    <!-- Card -->
     <style name="Widget.BrainQuest.Card" parent="Widget.Material3.CardView.Elevated">
         <item name="cardBackgroundColor">@color/surface</item>
         <item name="cardCornerRadius">18dp</item>
         <item name="cardElevation">2dp</item>
     </style>
 
-    <!-- Quiz answer option button -->
+    <!-- Answer button -->
     <style name="Widget.BrainQuest.OptionButton" parent="Widget.Material3.Button.OutlinedButton">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -74,7 +80,7 @@
         <item name="strokeWidth">2dp</item>
         <item name="backgroundTint">@color/surface</item>
     </style>
-    <!-- Stat on the home header -->
+    <!-- Stat pill -->
     <style name="HeaderStatPill">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>

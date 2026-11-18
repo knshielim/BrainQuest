@@ -23,6 +23,7 @@
             app:cardElevation="1dp"
             app:strokeWidth="0dp">
 
+            <!-- Cambridge logo -->
             <ImageView
                 android:id="@+id/imageCambridge"
                 android:layout_width="match_parent"
@@ -34,7 +35,16 @@
                 android:src="@drawable/ill_cambridge" />
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Student header -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="14dp"
+            android:gravity="center"
+            android:text="@string/cambridge_note"
+            android:textColor="@color/text_secondary"
+            android:textSize="11sp" />
+
+        <!-- Student card -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -55,13 +65,16 @@
                     android:background="@drawable/bg_circle"
                     android:backgroundTint="#33FFFFFF">
 
-                    <TextView
-                        android:id="@+id/textAvatar"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:textSize="30sp"
-                        tools:text="🦊" />
+                    <!-- Avatar -->
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/imageAvatar"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:contentDescription="@null"
+                        android:padding="3dp"
+                        android:scaleType="centerCrop"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearance.BrainQuest.Circle"
+                        tools:src="@drawable/avatar_fox" />
                 </FrameLayout>
 
                 <LinearLayout
@@ -71,6 +84,7 @@
                     android:layout_weight="1"
                     android:orientation="vertical">
 
+                    <!-- Greeting -->
                     <TextView
                         android:id="@+id/textGreeting"
                         android:layout_width="wrap_content"
@@ -80,6 +94,7 @@
                         android:textStyle="bold"
                         tools:text="Hi, Aina! 👋" />
 
+                    <!-- Info -->
                     <TextView
                         android:id="@+id/textInfo"
                         android:layout_width="wrap_content"
@@ -89,6 +104,7 @@
                         tools:text="Form 4 • SMK Seri Bintang" />
                 </LinearLayout>
 
+                <!-- Level -->
                 <TextView
                     android:id="@+id/textLevel"
                     android:layout_width="wrap_content"
@@ -103,6 +119,7 @@
                     tools:text="Lv 2" />
             </LinearLayout>
 
+            <!-- Level progress -->
             <TextView
                 android:id="@+id/textLevelProgress"
                 android:layout_width="wrap_content"
@@ -112,6 +129,7 @@
                 android:textSize="12sp"
                 tools:text="Explorer • 120 / 200 points to Level 3" />
 
+            <!-- Progress bar -->
             <com.google.android.material.progressindicator.LinearProgressIndicator
                 android:id="@+id/progressLevel"
                 android:layout_width="match_parent"
@@ -129,6 +147,7 @@
                 android:layout_marginTop="14dp"
                 android:orientation="horizontal">
 
+                <!-- Stars -->
                 <TextView
                     android:id="@+id/textStars"
                     style="@style/HeaderStatPill"
@@ -137,6 +156,7 @@
                     android:layout_weight="1"
                     tools:text="⭐ 5 stars" />
 
+                <!-- Points -->
                 <TextView
                     android:id="@+id/textPoints"
                     style="@style/HeaderStatPill"
@@ -146,6 +166,7 @@
                     android:layout_marginHorizontal="8dp"
                     tools:text="⚡ 320 pts" />
 
+                <!-- Badges -->
                 <TextView
                     android:id="@+id/textBadges"
                     style="@style/HeaderStatPill"
@@ -156,7 +177,7 @@
             </LinearLayout>
         </LinearLayout>
 
-        <!-- Fun fact (Did you know?) -->
+        <!-- Fun fact -->
         <com.google.android.material.card.MaterialCardView
             style="@style/Widget.BrainQuest.Card"
             android:layout_width="match_parent"
@@ -178,6 +199,7 @@
                     android:textColor="@color/text_primary"
                     android:textStyle="bold" />
 
+                <!-- Fun fact -->
                 <TextView
                     android:id="@+id/textFact"
                     android:layout_width="match_parent"
@@ -188,7 +210,6 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Learning module -->
         <TextView
             style="@style/TextAppearance.BrainQuest.Title"
             android:layout_width="wrap_content"
@@ -204,7 +225,7 @@
             android:layout_marginBottom="12dp"
             android:text="@string/choose_module_sub" />
 
-        <!-- RecyclerView for the Learning Module -->
+        <!-- RecyclerView -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerSubjects"
             android:layout_width="match_parent"

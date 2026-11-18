@@ -3,7 +3,9 @@ package com.example.brainquest.data
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
+import com.example.brainquest.R
 
+// Saved progress
 class ProgressManager(context: Context) {
 
     private val prefs: SharedPreferences =
@@ -15,7 +17,11 @@ class ProgressManager(context: Context) {
     val name: String get() = prefs.getString(KEY_NAME, "") ?: ""
     val form: String get() = prefs.getString(KEY_FORM, FORMS.first()) ?: FORMS.first()
     val school: String get() = prefs.getString(KEY_SCHOOL, "") ?: ""
-    val avatar: String get() = prefs.getString(KEY_AVATAR, AVATARS.first()) ?: AVATARS.first()
+    val avatar: String
+        get() = prefs.getString(KEY_AVATAR, null)?.takeIf { it in AVATARS } ?: AVATARS.first()
+
+    // Avatar image
+    val avatarImage: Int get() = avatarImageFor(avatar)
 
     fun saveProfile(name: String, form: String, school: String, avatar: String) {
         prefs.edit {
@@ -28,7 +34,7 @@ class ProgressManager(context: Context) {
 
     val firstName: String get() = name.trim().split(" ").firstOrNull().orEmpty()
 
-    // Points & level
+    // Points and level
     val totalPoints: Int get() = prefs.getInt(KEY_POINTS, 0)
 
     fun addPoints(points: Int) {
@@ -37,7 +43,7 @@ class ProgressManager(context: Context) {
 
     val level: Int get() = totalPoints / POINTS_PER_LEVEL + 1
 
-    /** Points earned inside the current level (0 until POINTS_PER_LEVEL). */
+    // Points in this level
     val pointsInLevel: Int get() = totalPoints % POINTS_PER_LEVEL
 
     val levelTitle: String
@@ -55,6 +61,7 @@ class ProgressManager(context: Context) {
 
     fun isLessonCompleted(lessonId: String): Boolean = lessonId in completedLessons()
 
+    // Complete lesson
     fun markLessonCompleted(lessonId: String): Boolean {
         val set = completedLessons().toMutableSet()
         if (!set.add(lessonId)) return false
@@ -68,7 +75,7 @@ class ProgressManager(context: Context) {
     }
 
     // Quizzes
-
+    // Best score
     fun bestScore(subjectId: String): Int = prefs.getInt(KEY_BEST + subjectId, -1)
 
     fun bestStars(subjectId: String): Int = prefs.getInt(KEY_STARS + subjectId, 0)
@@ -79,7 +86,7 @@ class ProgressManager(context: Context) {
 
     val totalStars: Int get() = LearningRepository.subjects.sumOf { bestStars(it.id) }
 
-
+    // Average score
     val averageScore: Int
         get() {
             val answered = prefs.getInt(KEY_ANSWERED, 0)
@@ -117,31 +124,32 @@ class ProgressManager(context: Context) {
         }
     }
 
-    // Badges & certificate
+    // Badges and certificate
+    // Mastered subjects
     private fun mastered(vararg subjectIds: String): Boolean = subjectIds.all { bestScore(it) >= MASTERY }
 
     fun badges(): List<Badge> {
         val allIds = LearningRepository.subjects.map { it.id }.toTypedArray()
         val subjectsTried = LearningRepository.subjects.count { attempts(it.id) > 0 }
         return listOf(
-            Badge("first_quiz", "🎯", "First Steps", "Complete your first quiz", quizzesTaken >= 1),
-            Badge("explorer", "🧭", "Explorer", "Take a quiz in 6 different subjects", subjectsTried >= 6),
-            Badge("bookworm", "📚", "Bookworm", "Complete all ${LearningRepository.totalLessons} lessons",
+            Badge("first_quiz", "🎯", R.drawable.badge_first_quiz, "First Steps", "Complete your first quiz", quizzesTaken >= 1),
+            Badge("explorer", "🧭", R.drawable.badge_explorer, "Explorer", "Take a quiz in 6 different subjects", subjectsTried >= 6),
+            Badge("bookworm", "📚", R.drawable.badge_bookworm, "Bookworm", "Complete all ${LearningRepository.totalLessons} lessons",
                 completedLessons().size >= LearningRepository.totalLessons),
-            Badge("perfect", "💯", "Perfectionist", "Get 100% in any quiz",
+            Badge("perfect", "💯", R.drawable.badge_perfect, "Perfectionist", "Get 100% in any quiz",
                 LearningRepository.subjects.any { bestScore(it.id) == 100 }),
-            Badge("points_1000", "💰", "Point Collector", "Earn 1000 points", totalPoints >= 1000),
-            Badge("math_whiz", "🧮", "Math Whiz", "Score $MASTERY% or more in Mathematics", mastered("math")),
-            Badge("science_star", "🔬", "Science Star", "Score $MASTERY% or more in Biology, Chemistry and Physics",
+            Badge("points_1000", "💰", R.drawable.badge_points_1000, "Point Collector", "Earn 1000 points", totalPoints >= 1000),
+            Badge("math_whiz", "🧮", R.drawable.badge_math_whiz, "Math Whiz", "Score $MASTERY% or more in Mathematics", mastered("math")),
+            Badge("science_star", "🔬", R.drawable.badge_science_star, "Science Star", "Score $MASTERY% or more in Biology, Chemistry and Physics",
                 mastered("biology", "chemistry", "physics")),
-            Badge("tech_wizard", "💻", "Tech Wizard", "Score $MASTERY% or more in Computer Science and ICT",
+            Badge("tech_wizard", "💻", R.drawable.badge_tech_wizard, "Tech Wizard", "Score $MASTERY% or more in Computer Science and ICT",
                 mastered("cs", "ict")),
-            Badge("word_master", "✍️", "Word Master", "Score $MASTERY% or more in English", mastered("english")),
-            Badge("business_brain", "📈", "Business Brain", "Score $MASTERY% or more in Business, Economics and Accounting",
+            Badge("word_master", "✍️", R.drawable.badge_word_master, "Word Master", "Score $MASTERY% or more in English", mastered("english")),
+            Badge("business_brain", "📈", R.drawable.badge_business_brain, "Business Brain", "Score $MASTERY% or more in Business, Economics and Accounting",
                 mastered("business", "economics", "accounting")),
-            Badge("humanities_hero", "🌍", "Humanities Hero", "Score $MASTERY% or more in Geography and History",
+            Badge("humanities_hero", "🌍", R.drawable.badge_humanities_hero, "Humanities Hero", "Score $MASTERY% or more in Geography and History",
                 mastered("geography", "history")),
-            Badge("champion", "🏆", "BrainQuest Champion",
+            Badge("champion", "🏆", R.drawable.badge_champion, "BrainQuest Champion",
                 "Score $MASTERY% or more in all ${LearningRepository.subjects.size} subjects", mastered(*allIds))
         )
     }
@@ -150,7 +158,7 @@ class ProgressManager(context: Context) {
 
     fun hasCertificate(): Boolean = unlockedBadgeIds().contains("champion")
 
-    // Resets progress
+    // Reset progress
     fun resetProgress() {
         val keep = mapOf(KEY_NAME to name, KEY_FORM to form, KEY_SCHOOL to school, KEY_AVATAR to avatar)
         prefs.edit {
@@ -179,7 +187,18 @@ class ProgressManager(context: Context) {
         const val MASTERY = 80
         const val LESSON_POINTS = 5
 
-        val AVATARS = listOf("🦊", "🐼", "🦉", "🐯", "🐬", "🚀", "🎧", "⚽")
+        // Avatars (images in res/drawable)
+        val AVATARS = listOf(
+            "avatar_fox", "avatar_panda", "avatar_owl", "avatar_tiger", "avatar_dolphin",
+            "avatar_astronaut", "avatar_music", "avatar_football", "avatar_robot", "avatar_penguin"
+        )
+        private val AVATAR_IMAGES = listOf(
+            R.drawable.avatar_fox, R.drawable.avatar_panda, R.drawable.avatar_owl, R.drawable.avatar_tiger,
+            R.drawable.avatar_dolphin, R.drawable.avatar_astronaut, R.drawable.avatar_music,
+            R.drawable.avatar_football, R.drawable.avatar_robot, R.drawable.avatar_penguin
+        )
+
+        fun avatarImageFor(avatar: String): Int = AVATAR_IMAGES[AVATARS.indexOf(avatar).coerceAtLeast(0)]
         val FORMS = listOf("Year 9", "Year 10", "Year 11")
 
         fun starsFor(percent: Int): Int = when {

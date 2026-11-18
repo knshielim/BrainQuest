@@ -61,12 +61,12 @@ class HomeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         bindHeader()
-        subjectAdapter.notifyDataSetChanged()
+        subjectAdapter.notifyDataSetChanged() // Refresh list
     }
 
     private fun bindHeader() {
         with(binding) {
-            textAvatar.text = progress.avatar
+            imageAvatar.setImageResource(progress.avatarImage)
             textGreeting.text = "Hi, ${progress.firstName}! 👋"
             textInfo.text = "${progress.form} • ${progress.school}"
             textLevel.text = "Lv ${progress.level}"

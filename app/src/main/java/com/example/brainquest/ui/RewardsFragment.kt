@@ -46,7 +46,8 @@ class RewardsFragment : Fragment() {
         dataList = arrayListOf<Badge>()
         badgeAdapter = BadgeAdapter(dataList) { badge ->
             MaterialAlertDialogBuilder(requireContext())
-                .setTitle("${badge.emoji}  ${badge.title}")
+                .setIcon(badge.imageRes)
+                .setTitle(badge.title)
                 .setMessage(
                     (if (badge.unlocked) "Unlocked! 🎉\n\n" else "🔒 Locked\n\nHow to unlock: ") + badge.description
                 )
